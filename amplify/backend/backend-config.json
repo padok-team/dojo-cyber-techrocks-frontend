@@ -1,24 +1,6 @@
 {
-  "api": {
-    "dojotechrocks": {
-      "dependsOn": [],
-      "output": {
-        "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
-            },
-            "authenticationType": "API_KEY"
-          }
-        }
-      },
-      "providerPlugin": "awscloudformation",
-      "service": "AppSync"
-    }
-  },
   "auth": {
-    "dojotechrockse64b0408": {
+    "dojotechrocks5d5d4b71": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {

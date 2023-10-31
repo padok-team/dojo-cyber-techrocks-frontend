@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "dojotechrockse64b0408_identitypool_e64b0408",
+    "identityPoolName": "dojotechrocks5d5d4b71_identitypool_5d5d4b71",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "dojotee64b0408",
-    "userPoolName": "dojotechrockse64b0408_userpool_e64b0408",
+    "resourceNameTruncated": "dojote5d5d4b71",
+    "userPoolName": "dojotechrocks5d5d4b71_userpool_5d5d4b71",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,10 +31,10 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "dojotee64b0408_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "dojote5d5d4b71_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "e64b0408",
-    "resourceName": "dojotechrockse64b0408",
+    "sharedId": "5d5d4b71",
+    "resourceName": "dojotechrocks5d5d4b71",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "usernameAttributes": [

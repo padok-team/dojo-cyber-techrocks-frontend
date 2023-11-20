@@ -238,7 +238,7 @@
     react-generate-context "1.0.1"
     tslib "2.4.1"
 
-"@aws-amplify/ui@5.8.1":
+"@aws-amplify/ui@5.8.1", "@aws-amplify/ui@^5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-5.8.1.tgz#3d3006cd24c7225c773c21953a7a44c1b1d1996e"
   integrity sha512-f7CYveXr3QzkWCjEcIzXe2ywoAc+j3cux7CBh/hS1X64dfleS8AhgHgnf1eJ+CQqNzEF51rZIJ8lrR62KBPAIQ==

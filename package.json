@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^0.0.2-console-preview.e8aa063.0",
+    "@aws-amplify/ui": "^5.8.1",
     "@aws-amplify/ui-react": "^5.3.1",
     "@types/crypto-js": "^4.1.3",
     "aws-amplify": "^5.3.11",

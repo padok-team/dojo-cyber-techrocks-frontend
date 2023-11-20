@@ -12,8 +12,12 @@ import "@aws-amplify/ui-react/styles.css";
 
 import { Avatar } from "flowbite-react";
 
-import { Amplify } from "aws-amplify";
+import { API, Amplify, Auth, graphqlOperation } from "aws-amplify";
 import awsExports from "../aws-exports";
+import { listMessages } from "../graphql/queries";
+import { CreateMessageMutation, ListMessagesQuery } from "../API";
+import { createMessage } from "../graphql/mutations";
+import { AmplifyUser } from "@aws-amplify/ui";
 Amplify.configure({ ...awsExports, ssr: true });
 
 const ChannelIcon = () => (
@@ -74,7 +78,29 @@ const Message = () => (
   </div>
 );
 
+async function fetchMessages() {
+  try {
+    const messageData: GraphQLResult<ListMessagesQuery> =
+      await API.graphql<ListMessagesQuery>(graphqlOperation(listMessages));
+    console.log(messageData.data.listMessages);
+  } catch (err) {
+    console.error("Error fetching messages", err);
+  }
+}
+
+async function pushMessage(content: string) {
+  try {
+    const messageData = await API.graphql<CreateMessageMutation>(
+      graphqlOperation(createMessage, { input: { content } })
+    );
+    console.log(messageData.data.createMessage);
+  } catch (err) {
+    console.error("Error fetching messages", err);
+  }
+}
+
 export default function Home() {
+  fetchMessages();
   return (
     <Authenticator hideSignUp>
       {({ signOut, user }) => (
@@ -167,6 +193,10 @@ export default function Home() {
                   <Button
                     className="bg-blue-500 dark:bg-blue-500 text-white"
                     variant="default"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      pushMessage("hello");
+                    }}
                   >
                     Send
                   </Button>

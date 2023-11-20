@@ -15,6 +15,9 @@
       "auth": {
         "dojotechrockse64b0408": {},
         "dojotechrocks5d5d4b71": {}
+      },
+      "api": {
+        "dojotechrocks": {}
       }
     }
   }

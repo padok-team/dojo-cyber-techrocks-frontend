@@ -1,0 +1,17 @@
+type Message
+  @model
+  @auth(
+    rules: [
+      # allow all authenticated users ability to create posts
+      # allow owners ability to update and delete their posts
+      { allow: owner, identityClaim: "email", ownerField: "author" }
+      # allow all authenticated users to read posts
+      { allow: private, operations: [read] }
+      # allow all guest users (not authenticated) to read posts
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  content: String
+  author: String
+}

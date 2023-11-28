@@ -5,6 +5,7 @@ import "./globals.css";
 import { Amplify } from "aws-amplify";
 import awsExports from "../aws-exports";
 import Script from "next/script";
+import Providers from "./providers";
 Amplify.configure({ ...awsExports, ssr: true });
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,8 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="flowbite.min.js" />
-
-      <body className={inter.className}>{children}</body>
+      <Providers>
+        <body className={inter.className}>{children}</body>
+      </Providers>
     </html>
   );
 }

@@ -19,6 +19,12 @@ import { listMessages } from "../graphql/queries";
 import { CreateMessageMutation, ListMessagesQuery } from "../API";
 import { createMessage } from "../graphql/mutations";
 import { AmplifyUser } from "@aws-amplify/ui";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 Amplify.configure({ ...awsExports, ssr: true });
 
 const ChannelIcon = () => (
@@ -68,13 +74,23 @@ const CompanyIcon = () => (
   </svg>
 );
 
-const Message = () => (
+type Message = {
+  id: string;
+  content?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  author?: string | null;
+};
+
+const Message = ({ message }: { message: Message }) => (
   <div className="p-2 rounded bg-gray-200 dark:bg-blue-600 mb-2">
     <div className="flex items-center gap-2">
       <Avatar rounded size="xs" />
-      <h3 className="font-bold text-gray-800 dark:text-blue-200">User 1</h3>
+      <h3 className="font-bold text-gray-800 dark:text-blue-200">
+        {message.author}
+      </h3>
     </div>
-    <p className="text-gray-800 dark:text-blue-200">Hello, how are you?</p>
+    <p className="text-gray-800 dark:text-blue-200">{message.content}</p>
     <p className="text-xs text-gray-500 dark:text-blue-300">Oct 27, 2023</p>
   </div>
 );
@@ -84,7 +100,8 @@ async function fetchMessages() {
     const messageData = await (API.graphql<ListMessagesQuery>(
       graphqlOperation(listMessages)
     ) as Promise<GraphQLResult<ListMessagesQuery>>);
-    console.log(messageData.data.listMessages);
+
+    return messageData.data.listMessages?.items.flatMap((item) => item ?? []);
   } catch (err) {
     console.error("Error fetching messages", err);
   }
@@ -95,14 +112,19 @@ async function pushMessage(content: string) {
     const messageData = await (API.graphql<CreateMessageMutation>(
       graphqlOperation(createMessage, { input: { content } })
     ) as Promise<GraphQLResult<CreateMessageMutation>>);
-    console.log(messageData.data.createMessage);
+    return messageData.data.createMessage;
   } catch (err) {
     console.error("Error fetching messages", err);
   }
 }
 
 export default function Home() {
-  fetchMessages();
+  const messages = useQuery({ queryKey: ["messages"], queryFn: fetchMessages });
+  const postMessage = useMutation({
+    mutationKey: ["messages"],
+    mutationFn: pushMessage,
+  });
+
   return (
     <Authenticator hideSignUp>
       {({ signOut, user }) => (
@@ -182,8 +204,9 @@ export default function Home() {
             </div>
             <div className="flex flex-col flex-grow">
               <div className="flex-grow overflow-auto p-4">
-                <Message />
-                <Message />
+                {messages.data?.map((message) => (
+                  <Message message={message} key={message.id} />
+                ))}
               </div>
               <div className="border-t border-gray-200 dark:border-blue-700 bg-white dark:bg-blue-900 p-4">
                 <form className="flex gap-2">
@@ -197,7 +220,7 @@ export default function Home() {
                     variant="default"
                     onClick={(e) => {
                       e.preventDefault();
-                      pushMessage("hello");
+                      postMessage.mutateAsync("Hello");
                     }}
                   >
                     Send

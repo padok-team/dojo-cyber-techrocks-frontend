@@ -13,6 +13,7 @@ import "@aws-amplify/ui-react/styles.css";
 import { Avatar } from "flowbite-react";
 
 import { API, Amplify, Auth, graphqlOperation } from "aws-amplify";
+import { GraphQLResult } from "@aws-amplify/api";
 import awsExports from "../aws-exports";
 import { listMessages } from "../graphql/queries";
 import { CreateMessageMutation, ListMessagesQuery } from "../API";
@@ -80,8 +81,9 @@ const Message = () => (
 
 async function fetchMessages() {
   try {
-    const messageData: GraphQLResult<ListMessagesQuery> =
-      await API.graphql<ListMessagesQuery>(graphqlOperation(listMessages));
+    const messageData = await (API.graphql<ListMessagesQuery>(
+      graphqlOperation(listMessages)
+    ) as Promise<GraphQLResult<ListMessagesQuery>>);
     console.log(messageData.data.listMessages);
   } catch (err) {
     console.error("Error fetching messages", err);
@@ -90,9 +92,9 @@ async function fetchMessages() {
 
 async function pushMessage(content: string) {
   try {
-    const messageData = await API.graphql<CreateMessageMutation>(
+    const messageData = await (API.graphql<CreateMessageMutation>(
       graphqlOperation(createMessage, { input: { content } })
-    );
+    ) as Promise<GraphQLResult<CreateMessageMutation>>);
     console.log(messageData.data.createMessage);
   } catch (err) {
     console.error("Error fetching messages", err);

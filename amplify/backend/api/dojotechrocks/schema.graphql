@@ -6,9 +6,7 @@ type Message
       # allow owners ability to update and delete their posts
       { allow: owner, identityClaim: "email", ownerField: "author" }
       # allow all authenticated users to read posts
-      { allow: private, operations: [read] }
-      # allow all guest users (not authenticated) to read posts
-      { allow: public, operations: [read] }
+      { allow: private, operations: [read, create] }
     ]
   ) {
   id: ID!

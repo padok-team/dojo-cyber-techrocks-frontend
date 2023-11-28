@@ -25,7 +25,18 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-Amplify.configure({ ...awsExports, ssr: true });
+
+Amplify.configure({
+  ...awsExports,
+  ssr: true,
+  graphql_headers: async () => {
+    const session = await Auth.currentSession();
+    console.log(session.getIdToken().getJwtToken());
+    return {
+      Authorization: session.getIdToken().getJwtToken(),
+    };
+  },
+});
 
 const ChannelIcon = () => (
   <svg
@@ -121,8 +132,10 @@ async function pushMessage(content: string) {
 export default function Home() {
   const messages = useQuery({ queryKey: ["messages"], queryFn: fetchMessages });
   const postMessage = useMutation({
-    mutationKey: ["messages"],
     mutationFn: pushMessage,
+    onSuccess: () => {
+      messages.refetch();
+    },
   });
 
   return (
@@ -133,7 +146,7 @@ export default function Home() {
             <div className="flex items-center gap-2">
               <CompanyIcon />
               <span className="font-semibold text-gray-800 dark:text-blue-50">
-                Hokla
+                Hokla (logged in as {user?.attributes?.email})
               </span>
             </div>
             <Button
@@ -209,8 +222,15 @@ export default function Home() {
                 ))}
               </div>
               <div className="border-t border-gray-200 dark:border-blue-700 bg-white dark:bg-blue-900 p-4">
-                <form className="flex gap-2">
+                <form
+                  className="flex gap-2"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    postMessage.mutateAsync(e.currentTarget.message.value);
+                  }}
+                >
                   <Input
+                    name="message"
                     className="flex-grow rounded"
                     placeholder="Type a message..."
                     type="text"
@@ -218,10 +238,7 @@ export default function Home() {
                   <Button
                     className="bg-blue-500 dark:bg-blue-500 text-white"
                     variant="default"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      postMessage.mutateAsync("Hello");
-                    }}
+                    type="submit"
                   >
                     Send
                   </Button>

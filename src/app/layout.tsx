@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import { Amplify } from "aws-amplify";
+import { Amplify, Auth } from "aws-amplify";
 import awsExports from "../aws-exports";
 import Script from "next/script";
 import Providers from "./providers";
-Amplify.configure({ ...awsExports, ssr: true });
+
 
 const inter = Inter({ subsets: ["latin"] });
 

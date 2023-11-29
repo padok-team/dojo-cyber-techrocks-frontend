@@ -1,4 +1,28 @@
 {
+  "production": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-theodo-techr-production-142126-authRole",
+      "UnauthRoleArn": "arn:aws:iam::450568479740:role/amplify-theodo-techr-production-142126-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::450568479740:role/amplify-theodo-techr-production-142126-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "theodo-techr-production-142126-deployment",
+      "UnauthRoleName": "amplify-theodo-techr-production-142126-unauthRole",
+      "StackName": "amplify-theodo-techr-production-142126",
+      "StackId": "arn:aws:cloudformation:eu-west-3:450568479740:stack/amplify-theodo-techr-production-142126/7f1fc720-8ec3-11ee-b749-0a53cc7045c6",
+      "AmplifyAppId": "d3d7p2ineeoi0y"
+    },
+    "categories": {
+      "auth": {
+        "dojotechrocks5d5d4b71": {}
+      },
+      "api": {
+        "dojotechrocks": {}
+      },
+      "storage": {
+        "dojotechrocks": {}
+      }
+    }
+  },
   "dev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-dojotechrocks-dev-205326-authRole",
@@ -18,6 +42,13 @@
       },
       "api": {
         "dojotechrocks": {}
+      }
+    }
+  },
+  "staging": {
+    "categories": {
+      "auth": {
+        "dojotechrocks5d5d4b71": {}
       }
     }
   }

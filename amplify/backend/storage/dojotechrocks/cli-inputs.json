@@ -1,0 +1,12 @@
+{
+  "resourceName": "dojotechrocks",
+  "policyUUID": "ab045558",
+  "bucketName": "theodo-techrocks-chat-files",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

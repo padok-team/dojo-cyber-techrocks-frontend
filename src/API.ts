@@ -4,13 +4,15 @@
 
 export type CreateMessageInput = {
   id?: string | null,
-  content?: string | null,
+  content: string,
   author?: string | null,
+  createdAt?: string | null,
 };
 
 export type ModelMessageConditionInput = {
   content?: ModelStringInput | null,
   author?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
@@ -59,7 +61,7 @@ export type ModelSizeInput = {
 export type Message = {
   __typename: "Message",
   id: string,
-  content?: string | null,
+  content: string,
   author?: string | null,
   createdAt: string,
   updatedAt: string,
@@ -69,6 +71,7 @@ export type UpdateMessageInput = {
   id: string,
   content?: string | null,
   author?: string | null,
+  createdAt?: string | null,
 };
 
 export type DeleteMessageInput = {
@@ -79,6 +82,7 @@ export type ModelMessageFilterInput = {
   id?: ModelIDInput | null,
   content?: ModelStringInput | null,
   author?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
   or?: Array< ModelMessageFilterInput | null > | null,
   not?: ModelMessageFilterInput | null,
@@ -109,6 +113,7 @@ export type ModelMessageConnection = {
 export type ModelSubscriptionMessageFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   content?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
   or?: Array< ModelSubscriptionMessageFilterInput | null > | null,
 };
@@ -152,7 +157,7 @@ export type CreateMessageMutation = {
   createMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -168,7 +173,7 @@ export type UpdateMessageMutation = {
   updateMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -184,7 +189,7 @@ export type DeleteMessageMutation = {
   deleteMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -199,7 +204,7 @@ export type GetMessageQuery = {
   getMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -218,7 +223,7 @@ export type ListMessagesQuery = {
     items:  Array< {
       __typename: "Message",
       id: string,
-      content?: string | null,
+      content: string,
       author?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -236,7 +241,7 @@ export type OnCreateMessageSubscription = {
   onCreateMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -252,7 +257,7 @@ export type OnUpdateMessageSubscription = {
   onUpdateMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -268,7 +273,7 @@ export type OnDeleteMessageSubscription = {
   onDeleteMessage?:  {
     __typename: "Message",
     id: string,
-    content?: string | null,
+    content: string,
     author?: string | null,
     createdAt: string,
     updatedAt: string,

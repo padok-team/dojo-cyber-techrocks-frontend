@@ -6,10 +6,11 @@ type Message
       # allow owners ability to update and delete their posts
       { allow: owner, identityClaim: "email", ownerField: "author" }
       # allow all authenticated users to read posts
-      { allow: private, operations: [read, create] }
+      { allow: private, operations: [read, create, update, delete] }
     ]
   ) {
   id: ID!
-  content: String
+  content: String!
   author: String
+  createdAt: AWSDateTime!
 }

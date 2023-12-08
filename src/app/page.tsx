@@ -25,6 +25,8 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
+import { useCallback, useEffect, useRef } from "react";
+import _ from "lodash";
 
 Amplify.configure({
   ...awsExports,
@@ -87,7 +89,7 @@ const CompanyIcon = () => (
 
 type Message = {
   id: string;
-  content?: string | null;
+  content: string;
   createdAt: string;
   updatedAt: string;
   author?: string | null;
@@ -102,7 +104,9 @@ const Message = ({ message }: { message: Message }) => (
       </h3>
     </div>
     <p className="text-gray-800 dark:text-blue-200">{message.content}</p>
-    <p className="text-xs text-gray-500 dark:text-blue-300">Oct 27, 2023</p>
+    <p className="text-xs text-gray-500 dark:text-blue-300">
+      {new Date(message.createdAt).toLocaleString()}
+    </p>
   </div>
 );
 
@@ -112,7 +116,10 @@ async function fetchMessages() {
       graphqlOperation(listMessages)
     ) as Promise<GraphQLResult<ListMessagesQuery>>);
 
-    return messageData.data.listMessages?.items.flatMap((item) => item ?? []);
+    const messages = messageData.data.listMessages?.items.flatMap(
+      (item) => item ?? []
+    );
+    return _.orderBy(messages, "createdAt");
   } catch (err) {
     console.error("Error fetching messages", err);
   }
@@ -130,13 +137,29 @@ async function pushMessage(content: string) {
 }
 
 export default function Home() {
-  const messages = useQuery({ queryKey: ["messages"], queryFn: fetchMessages });
+  const messages = useQuery({
+    queryKey: ["messages"],
+    queryFn: fetchMessages,
+    refetchInterval: 3000,
+  });
   const postMessage = useMutation({
     mutationFn: pushMessage,
     onSuccess: () => {
       messages.refetch();
     },
   });
+
+  const scrollToBottom = useCallback(() => {
+    if (messageContainer.current)
+      messageContainer.current.scrollTop =
+        messageContainer.current?.scrollHeight;
+  }, []);
+
+  useEffect(() => {
+    if (messages) scrollToBottom();
+  }, [messages, scrollToBottom]);
+
+  const messageContainer = useRef<HTMLDivElement>(null);
 
   return (
     <Authenticator hideSignUp>
@@ -178,7 +201,7 @@ export default function Home() {
               </ul>
             </div>
           </header>
-          <div className="flex flex-grow">
+          <div className="flex flex-grow overflow-auto">
             <div className="w-64 border-r border-gray-200 dark:border-blue-700 bg-white dark:bg-blue-900 overflow-auto">
               <nav className="p-4 space-y-2">
                 <h2 className="text-gray-800 dark:text-blue-50">Channels</h2>
@@ -216,7 +239,10 @@ export default function Home() {
               </nav>
             </div>
             <div className="flex flex-col flex-grow">
-              <div className="flex-grow overflow-auto p-4">
+              <div
+                className="flex-grow overflow-auto p-4"
+                ref={messageContainer}
+              >
                 {messages.data?.map((message) => (
                   <Message message={message} key={message.id} />
                 ))}
